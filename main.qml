@@ -1,159 +1,226 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
+import QtQuick.Controls 1.0
+
 
 Window {
     id: root
     visible: true
-    width: Screen.desktopAvailableWidth
-    height: Screen.desktopAvailableHeight
-    minimumWidth: 320
+    width: Screen.desktopAvailableWidth*0.70
+    height: Screen.desktopAvailableHeight*0.70
+    minimumWidth: 600
     minimumHeight: 470 //600
     title: qsTr("Calculatrice")
     Item {
         width: parent.width
         height: parent.height
-        Column {
-            width: parent.width
-            height: parent.height
+        Row {
+            anchors.fill: parent
             Rectangle {
-                id: topArea
-                width: parent.width
-                height: parent.height*0.35
+                id: rightArea
+                width: parent.width*0.30
+                height: parent.height
                 anchors {
                     top: parent.top
-                    right: parent.right
+                    bottom: parent.bottom
                     left: parent.left
                 }
-                color: "red"
+                color: "#0f1722"
                 Column {
-                    width: parent.width
-                    height: parent.height
+                    anchors.fill: parent
                     Rectangle {
-                        id: classification
+                        id: nameTitle
                         width: parent.width
+                        height: parent.height*0.25
+                        color: "#0f1722"
                         anchors {
                             top: parent.top
                             right: parent.right
                             left: parent.left
                         }
-                        color: "pink"
-                        height: Screen.desktopAvailableHeight*0.053625//parent.height*0.165
+
                         Text {
-                            id: classificationName
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.pixelSize: 20
+                            anchors.centerIn: parent
+                            text: "Calculator"
                             color: "white"
-                            text: qsTr("Standard")
+                            font.pixelSize: parent.height*0.35
                         }
                     }
                     Rectangle {
-                        id: bufferedOperation
+                        id: standardBtnArea
                         width: parent.width
+                        height: parent.height*0.25
+                        color: "#0f1722"
                         anchors {
-                            top: classification.bottom
+                            top: nameTitle.bottom
                             right: parent.right
                             left: parent.left
                         }
-                        color: "yellow"
-                        height: parent.height*0.13
+                        Rectangle {
+                            id: standardBtn
+                            anchors.centerIn: parent
+                            width: parent.width*0.25
+                            height: standardBtn.width
+                            color: "#0f1722"
+                            radius: 5
+                            ButtonCustom {
+                                id: standardBtnCust
+                                anchors.fill: parent
+                                textBtn: "123"
+                                colorBtn: "#6c63ff"
+                                radiusBtn: standardBtn.radius
+                                fontSize: parent.height*0.45
+                                onClicked: {
+                                    layoutController.currentLayout = 0
+                                    layoutController.switchLayout()
+                                }
+                            }
+                        }
                     }
                     Rectangle {
-                        id: inputArea
+                        id: scientificBtnArea
                         width: parent.width
+                        height: parent.height*0.25
+                        color: "#0f1722"
                         anchors {
-                            top: bufferedOperation.bottom
+                            top: standardBtnArea.bottom
                             right: parent.right
                             left: parent.left
                         }
-                        color: "orange"
-                        height: parent.height*0.4
-                        Text {
-                            text: "0"
-                            font.pixelSize: 70
-                            anchors.verticalCenter: parent.verticalCenter
+                        Rectangle {
+                            id: scientificBtn
+                            anchors.centerIn: parent
+                            width: parent.width*0.25
+                            height: scientificBtn.width
+                            color: "#0f1722"
+                            radius: 5
+                            ButtonCustom {
+                                id: scientificBtnCust
+                                anchors.fill: parent
+                                textBtn: "Scie"
+
+                                colorBtn:  "#151e2a"
+                                radiusBtn: scientificBtn.radius
+                                fontSize: parent.height*0.45
+                                onClicked: {
+                                    layoutController.currentLayout = 1
+                                    layoutController.switchLayout()
+                                }
+                            }
                         }
                     }
                     Rectangle {
-                        id: memoryManagementArea
+                        id: helpAndSettingArea
                         width: parent.width
+                        height: parent.height*0.25
+                        color: "#0f1722"
                         anchors {
-                            top: inputArea.bottom
+                            top: scientificBtnArea.bottom
                             right: parent.right
                             left: parent.left
                             bottom: parent.bottom
                         }
-                        color: "purple"
                         Row {
-                            width: parent.width
-                            height: parent.height
+                            anchors.fill: parent
+                            Rectangle {
+                                id: settingArea
+                                width: parent.width /2
+                                height: parent.height
+                                color: "#0f1722"
+                                anchors {
+                                    top: parent.top
+                                    bottom: parent.bottom
+                                    right: paren.right
+                                }
 
-                            spacing: 1
-
-                            Repeater {
-                                model: 5
                                 Rectangle {
-                                    id: memo
-                                    width: if (parent.width <= (root.minimumWidth + 80)){
-                                               return (parent.width - (4 * 1))/5
-                                           } else {
-                                               return ((root.minimumWidth + 80) - (4 * 1))/5
-                                           }
-
-                                    height: if(parent.height <= (memo.width*0.7)){
-                                                return parent.height
-                                            } else {
-                                                return (memo.width*0.7)
-                                            }
-//                                    height: parent.height
-                                    color: "#45ef96"
-//                                    radius: 7
-                                    Text {
-                                        text: "M..."
-                                        anchors.centerIn: parent
+                                    id: settingAreaBtn
+                                    anchors.centerIn: parent
+                                    width: parent.width * 0.4
+                                    height: settingAreaBtn.width
+                                    color: "#0f1722"
+                                    ButtonCustom {
+                                        anchors.fill: parent
+                                        textBtn: "Set.."
+                                        colorBtn: "#151e2a"
+                                        radiusBtn: 5
+                                        fontSize: settingAreaBtn.height*0.35
                                     }
                                 }
                             }
+                            Rectangle {
+                                id: aboutArea
+                                width: parent.width /2
+                                height: parent.height
+                                color: "#0f1722"
+                                anchors {
+                                    top: parent.top
+                                    bottom: parent.bottom
+                                    right: parent.right
+                                    left: settingArea.right
+                                }
+                                Rectangle {
+                                    id: aboutAreaBtn
+                                    anchors.centerIn: parent
+                                    width: parent.width * 0.4
+                                    height: settingAreaBtn.width
+                                    color: "#0f1722"
+                                    ButtonCustom {
+                                        anchors.fill: parent
+                                        textBtn: "about"
+                                        colorBtn: "#151e2a"
+                                        radiusBtn: 5
+                                        fontSize: settingAreaBtn.height*0.35
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
 
             }
-            Rectangle {
-                id: bottomArea
-                width: parent.width
-                height: parent.height - topArea.height
+            StandardCalculatorLayout {
+                id: standardSelect
+                idNumber: 0
+                visibleLayout: layoutController.currentLayout === standardSelect.idNumber
+                layoutWidth: parent.width - rightArea.width
+                layoutHeight: parent.height
                 anchors {
-                    top: topArea.bottom
-                    right: parent.right
-                    left: parent.left
+                    top: parent.top
                     bottom: parent.bottom
+                    left: rightArea.right
+                    right: parent.right
                 }
-                color: "green"
-                Grid {
-                    rows: 5
-                    columns: 5
-                    spacing: 1
-                    width: parent.width
-                    height: parent.height
-                    Repeater {
-                        model: 25
-                        Rectangle {
-                            width: (parent.width - (4 * 1)) / 5
-                            height: (parent.height - (4 * 1)) / 5
-                            border {
-                                width: 2
-                                color: "black"
-                            }
-//                            radius: 12
-                            color: "magenta"
-                            Text {
-                                text: "OP"
-                                font.pixelSize: 25
-                                anchors.centerIn: parent
-                            }
-                        }
-                    }
+            }
+            ScientificCalculatorLayout{
+                id: scientificSelect
+
+                idNumber: 1
+                visibleLayout: layoutController.currentLayout === scientificSelect.idNumber
+                layoutWidth: parent.width - rightArea.width
+                layoutHeight: parent.height
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: rightArea.right
+                    right: parent.right
                 }
+            }
+        }
+
+    }
+    QtObject {
+        id: layoutController
+        property int currentLayout: 0
+        property int layoutCount: 2
+        function switchLayout() {
+            if(layoutController.currentLayout === 0){
+                standardBtnCust.colorBtn = "#6c63ff"
+                scientificBtnCust.colorBtn = "#151e2a"
+            } else {
+                scientificBtnCust.colorBtn = "#6c63ff"
+                standardBtnCust.colorBtn = "#151e2a"
             }
         }
     }
