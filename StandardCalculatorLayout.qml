@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import StringProcessor 1.0
 
 Item {
     id: root
@@ -6,6 +7,7 @@ Item {
     property bool visibleLayout
     property int layoutWidth
     property int layoutHeight
+    property var allowedStrings: ["sin", "cos", "tan", "+"]
     visible: visibleLayout
     Rectangle {
         width: layoutWidth
@@ -38,6 +40,21 @@ Item {
                         }
                         color: "#1d293a"
                         height: parent.height*0.15
+                        TextInput {
+                            id: bufferedOperationArea
+                            text: ""
+                            color: "white"
+                            font.pixelSize: parent.height*0.8
+                            width: parent.width
+                            horizontalAlignment: TextInput.AlignRight
+                            clip: true
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            readOnly: true
+                            focus: false
+//                            onTextChanged: {
+//                                bufferedOperationArea.text
+//                            }
+                        }
                     }
                     Rectangle {
                         id: inputArea
@@ -60,15 +77,8 @@ Item {
                             clip: true
                             inputMethodHints: Qt.ImhDigitsOnly
                             //readOnly: true
-
                             focus: false
-                            //Intercepter les modificationsde texte
-                            onTextChanged: {
-                                var validText = inputField.text.replace(/[^0-9]/g, "")
-                                if(validText !== inputField.text){
-                                    inputField.text = validText;
-                                }
-                            }
+
                         }
                     }
                     Rectangle {
@@ -136,9 +146,9 @@ Item {
                     height: parent.height
                     Repeater {
                         model: if (root.height <= 600 && root.width <= 600){
-                                   return ["%", "sqrt","x²","1/x","CE", "C", "Del", "/",  "7", "8", "9", "*", "4", "5", "6","-", "1", "2", "3", "+",  "+/-", "0", ",", "="]
+                                   return ["(",")", "\u221A","x²","CE", "C", "Del", "\u00F7",  "7", "8", "9", "*", "4", "5", "6","-", "1", "2", "3", "+",  "+/-", "0", ",", "="]
                                }else {
-                                   return ["%", "CE", "C", "Del", "/", "sqrt", "7", "8", "9", "*", "x²","4", "5", "6","-", "x³" ,"1", "2", "3", "+", "1/x", "+/-", "0", ",", "="]
+                                   return ["\u221A", "CE", "C", "Del", "\u00F7", "x²", "7", "8", "9", "*", "x³" ,"4", "5", "6","-", "+/-","1", "2", "3", "+", "(",")", "0", ",", "="]
                                }
 
                         Rectangle {
@@ -157,6 +167,7 @@ Item {
                             radius:7
 
                             color: "#354356"
+
                             ButtonCustom {
                                 anchors.fill: parent
                                 radiusBtn: buttons.radius
@@ -170,11 +181,67 @@ Item {
                                           }
 
                                 fontSize: 20
+                                onClicked: actionsOfTheStandardLayout.btnActionToInput(textBtn)
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    StringProcessorWrapper {
+        id: process
+    }
+    QtObject {
+        id: actionsOfTheStandardLayout
+        property string textToSend : bufferedOperationArea.text + inputField.text
+        property string stringToDisplay : " Worked!"
+        function btnActionToInput(stringToWork){
+            var recievedText = ""
+            if (inputField.text.length === 1 && inputField.text === "0" && stringToWork !== "0"){
+                inputField.text = ""
+            } else if (inputField.text.length === 1 && inputField.text === "0" && stringToWork === "0") {
+                inputField.text = "0"
+            }
+
+            if (stringToWork === "\u221A"){
+                inputField.text += "sqrt"
+                inputField.text += "("
+            }else if (stringToWork === "x²"){
+                inputField.text += stringToWork
+                inputField.text += "sqr("
+            }else if (stringToWork === "\u00F7"){
+                bufferedOperationArea.text += inputField.text + "/"
+                inputField.text = ""
+            }else if (stringToWork === "*"){
+                bufferedOperationArea.text += inputField.text + "*"
+                inputField.text = ""
+            }else if (stringToWork === "-"){
+                bufferedOperationArea.text += inputField.text + "-"
+                inputField.text = ""
+            }else if (stringToWork === "+"){
+                bufferedOperationArea.text += inputField.text + "+"
+                inputField.text = ""
+            }else if (stringToWork === "CE"){
+                inputField.text = ""
+            }else if (stringToWork === "C"){
+                inputField.text = ""
+                bufferedOperationArea.text = ""
+            }else if (stringToWork === "Del"){
+                inputField.text = inputField.text.slice(0, -1)
+            }else if(stringToWork === "=") {
+                recievedText = process.process(actionsOfTheStandardLayout.textToSend)
+                bufferedOperationArea.text = ""
+                inputField.text = recievedText
+            }else{
+                if (inputField.text.length === 1 && inputField.text === "0" && stringToWork === "0") {
+                    inputField.text = "0"
+                } else {
+                    inputField.text += stringToWork
+                }
+            }
+        }
+
     }
 }

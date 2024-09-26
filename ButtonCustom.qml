@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
+import StringProcessor 1.0
 
 Item {
     id: root
@@ -45,6 +46,8 @@ Item {
         color: "white"
         anchors.centerIn: parent
     }
+
+
     MouseArea {
         id:mouseAreaBtn
         anchors.fill: parent

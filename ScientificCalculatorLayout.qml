@@ -64,7 +64,7 @@ Item {
                             focus: false
                             //Intercepter les modificationsde texte
                             onTextChanged: {
-                                var validText = inputField.text.replace(/[^0-9]/g, "")
+                                var validText = inputField.text.replace(/[^0-9\(\)\+\-\*\\\.]/g, "")
                                 if(validText !== inputField.text){
                                     inputField.text = validText;
                                 }
@@ -172,8 +172,8 @@ Item {
                                           } else {
                                               return "#354356"
                                           }
-
                                 fontSize: 20
+
                             }
                         }
                     }
@@ -181,4 +181,5 @@ Item {
             }
         }
     }
+
 }
