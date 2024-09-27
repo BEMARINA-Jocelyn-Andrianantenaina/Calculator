@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>ButtonCustom.qml</file>
+        <file>StandardCalculatorLayout.qml</file>
+        <file>ScientificCalculatorLayout.qml</file>
+    </qresource>
+</RCC>
