@@ -11,9 +11,17 @@ Window {
     minimumWidth: 600
     minimumHeight: 470 //600
     title: qsTr("Calculatrice")
+//    icon: ":/images/projet-ENI-icon.png"
+    FontLoader {
+        id: jetbrainsFont
+        source: "fonts/JetBrainsMono-Regular.ttf"
+    }
+
     Item {
         id: subroot
-        property string windowInterfaceMode: "dark"
+        property bool layoutMode: true
+        property real radiusWindow: 15
+        property font universalFont: jetbrainsFont.name
         width: parent.width
         height: parent.height
         Row {
@@ -27,165 +35,198 @@ Window {
                     bottom: parent.bottom
                     left: parent.left
                 }
-                color: "#0f1722"
-
-                Column {
-                    anchors.fill: parent
-                    Rectangle {
-                        id: nameTitle
-                        width: parent.width
-                        height: parent.height*0.25
-                        color: "#0f1722"
-                        anchors {
-                            top: parent.top
-                            right: parent.right
-                            left: parent.left
-                        }
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Calculator"
-                            color: "white"
-                            font.pixelSize: parent.height*0.35
-                        }
-                    }
-                    Rectangle {
-                        id: standardBtnArea
-                        width: parent.width
-                        height: parent.height*0.25
-                        color: "#0f1722"
-                        anchors {
-                            top: nameTitle.bottom
-                            right: parent.right
-                            left: parent.left
-                        }
+                color: subroot.layoutMode ? "#111111":"#ffffff"
+                Rectangle{
+                    width: parent.width*0.80
+                    height: parent.height*0.80
+                    anchors.centerIn: parent
+                    color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                    radius: subroot.radiusWindow
+                    Column {
+                        width: parent.width*0.97
+                        height: parent.height*0.97
+                        anchors.centerIn: parent
                         Rectangle {
-                            id: standardBtn
-                            anchors.centerIn: parent
-                            width: parent.width*0.25
-                            height: standardBtn.width
-                            color: "#0f1722"
-                            radius: 5
-                            ButtonCustom {
-                                id: standardBtnCust
-                                anchors.fill: parent
-                                textBtn: "123"
-                                colorBtn: "#6c63ff"
-                                radiusBtn: standardBtn.radius
-                                fontSize: parent.height*0.45
-                                onClicked: {
-                                    layoutController.currentLayout = 0
-                                    layoutController.switchLayout()
-                                }
+                            id: nameTitle
+                            width: parent.width
+                            height: parent.height*0.25
+                            color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                            anchors {
+                                top: parent.top
+                                right: parent.right
+                                left: parent.left
+                            }
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: "Calculator"
+                                color: "black"
+                                font.family: subroot.universalFont
+                                font.pixelSize: parent.height*0.35
                             }
                         }
-                    }
-                    Rectangle {
-                        id: scientificBtnArea
-                        width: parent.width
-                        height: parent.height*0.25
-                        color: "#0f1722"
-                        anchors {
-                            top: standardBtnArea.bottom
-                            right: parent.right
-                            left: parent.left
-                        }
                         Rectangle {
-                            id: scientificBtn
-                            anchors.centerIn: parent
-                            width: parent.width*0.25
-                            height: scientificBtn.width
-                            color: "#0f1722"
-                            radius: 5
-                            ButtonCustom {
-                                id: scientificBtnCust
-                                anchors.fill: parent
-                                textBtn: "Scie"
-
-                                colorBtn:  "#151e2a"
-                                radiusBtn: scientificBtn.radius
-                                fontSize: parent.height*0.45
-                                onClicked: {
-                                    layoutController.currentLayout = 1
-                                    layoutController.switchLayout()
-                                }
+                            id: standardBtnArea
+                            width: parent.width
+                            height: parent.height*0.25
+                            color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                            anchors {
+                                top: nameTitle.bottom
+                                right: parent.right
+                                left: parent.left
                             }
-                        }
-                    }
-                    Rectangle {
-                        id: helpAndSettingArea
-                        width: parent.width
-                        height: parent.height*0.25
-                        color: "#0f1722"
-                        anchors {
-                            top: scientificBtnArea.bottom
-                            right: parent.right
-                            left: parent.left
-                            bottom: parent.bottom
-                        }
-                        Row {
-                            anchors.fill: parent
                             Rectangle {
-                                id: settingArea
-                                width: parent.width /2
-                                height: parent.height
-                                color: "#0f1722"
-                                anchors {
-                                    top: parent.top
-                                    bottom: parent.bottom
-                                    right: paren.right
-                                }
-
-                                Rectangle {
-                                    id: settingAreaBtn
-                                    anchors.centerIn: parent
-                                    width: parent.width * 0.4
-                                    height: settingAreaBtn.width
-                                    color: "#0f1722"
-                                    ButtonCustom {
-                                        id: lightTheLayout
-                                        anchors.fill: parent
-                                        textBtn: "light"
-                                        colorBtn: "#151e2a"
-                                        radiusBtn: 5
-                                        fontSize: settingAreaBtn.height*0.35
-                                        onClicked: layoutController.switchMode(lightTheLayout.textBtn)
+                                id: standardBtn
+                                anchors.centerIn: parent
+                                width: parent.width*0.45
+                                height: parent.height*0.60
+                                color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                                radius: subroot.radiusWindow
+                                ButtonCustom {
+                                    id: standardBtnCust
+                                    anchors.fill: parent
+                                    textBtn: "123"
+                                    modeEnabled: !subroot.layoutMode
+                                    colorBtn: "#573826"
+                                    fontBtn: subroot.universalFont
+                                    radiusBtn: standardBtn.radius
+                                    fontSize: parent.height*0.45
+                                    onClicked: {
+                                        layoutController.currentLayout = 0
+                                        scientificSelect.textInputFieldReset.text = "0"
+                                        scientificSelect.textBufferedFieldReset.text = ""
                                     }
                                 }
                             }
+                        }
+                        Rectangle {
+                            id: scientificBtnArea
+                            width: parent.width
+                            height: parent.height*0.25
+                            color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                            anchors {
+                                top: standardBtnArea.bottom
+                                right: parent.right
+                                left: parent.left
+                            }
                             Rectangle {
-                                id: aboutArea
-                                width: parent.width /2
-                                height: parent.height
-                                color: "#0f1722"
-                                anchors {
-                                    top: parent.top
-                                    bottom: parent.bottom
-                                    right: parent.right
-                                    left: settingArea.right
-                                }
-                                Rectangle {
-                                    id: aboutAreaBtn
-                                    anchors.centerIn: parent
-                                    width: parent.width * 0.4
-                                    height: settingAreaBtn.width
-                                    color: "#151e2a"
-                                    ButtonCustom {
-                                        id: modeBtn
-                                        anchors.fill: parent
-                                        textBtn: "dark"
-                                        colorBtn: "#151e2a"
-                                        radiusBtn: 5
-                                        fontSize: settingAreaBtn.height*0.35
-                                        onClicked: layoutController.switchMode(modeBtn.textBtn)
+                                id: scientificBtn
+                                anchors.centerIn: parent
+                                width: parent.width*0.45
+                                height: parent.height*0.60
+                                color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                                radius: subroot.radiusWindow
+                                ButtonCustom {
+                                    id: scientificBtnCust
+                                    anchors.fill: parent
+                                    textBtn: "Scie"
+                                    colorBtn:  "#573826"
+                                    modeEnabled: !subroot.layoutMode
+                                    fontBtn: subroot.universalFont
+                                    radiusBtn: scientificBtn.radius
+                                    fontSize: parent.height*0.45
+                                    onClicked: {
+                                        layoutController.currentLayout = 1
+                                        standardSelect.textInputFieldReset.text = "0"
+                                        standardSelect.textBufferedFieldReset.text = ""
                                     }
                                 }
                             }
+                        }
+                        Rectangle {
+                            id: helpAndSettingArea
+                            width: parent.width
+                            height: parent.height*0.25
+                            color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                            anchors {
+                                top: scientificBtnArea.bottom
+                                right: parent.right
+                                left: parent.left
+                                bottom: parent.bottom
+                            }
+                            Row {
+                                anchors.fill: parent
+                                Rectangle {
+                                    id: settingArea
+                                    width: parent.width /2
+                                    height: parent.height
+                                    color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                                    anchors {
+                                        top: parent.top
+                                        bottom: parent.bottom
+                                        left: parent.left
+                                    }
+                                    Rectangle {
+                                        id: settingAreaBtn
+                                        anchors.centerIn: parent
+                                        width: parent.width * 0.6
+                                        height: parent.height * 0.5
+                                        radius: subroot.radiusWindow
+                                        color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                                        ButtonCustom {
+                                            id: lightTheLayout
+                                            anchors.fill: parent
+                                            textBtn: "light"
+                                            colorBtn: subroot.layoutMode ? "#573826" :"#fef3ec"
+                                            radiusBtn: settingAreaBtn.radius
+                                            fontBtn: subroot.universalFont
+                                            modeEnabled: !subroot.layoutMode
+                                            fontSize: settingAreaBtn.height*0.35
+                                            onClicked: layoutController.switchMode(lightTheLayout.textBtn)
+                                            Image {
+                                                source: subroot.layoutMode ? "images/light-button-lighted-pink.png" : "images/light-button-lighted.png"
+                                                anchors.centerIn: parent
+                                                width: parent.width*0.90
+                                                height: parent.height*0.90
+                                                fillMode: Image.PreserveAspectFit
+                                            }
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    id: aboutArea
+                                    width: parent.width /2
+                                    height: parent.height
+                                    color: subroot.layoutMode ? "#fef3ec" : "#573826"
+                                    anchors {
+                                        top: parent.top
+                                        bottom: parent.bottom
+                                        right: parent.right
+                                        left: settingArea.right
+                                    }
 
+                                    Rectangle {
+                                        id: aboutAreaBtn
+                                        anchors.centerIn: parent
+                                        width: parent.width * 0.6
+                                        height: parent.height * 0.5
+                                        color: subroot.layoutMode ? "#fef3ec" :"#573826"
+                                        radius: subroot.radiusWindow
+                                        ButtonCustom {
+                                            id: modeBtn
+                                            anchors.fill: parent
+                                            textBtn: "dark"
+                                            colorBtn: subroot.layoutMode ? "#573826" :"#fef3ec"
+                                            radiusBtn: aboutAreaBtn.radius
+                                            fontBtn: subroot.universalFont
+                                            modeEnabled: !subroot.layoutMode
+                                            fontSize: settingAreaBtn.height*0.35
+                                            onClicked: layoutController.switchMode(modeBtn.textBtn)
+                                            Image {
+                                                source: subroot.layoutMode ? "images/dark-button-pink.png" : "images/dark-button-brown.png"
+                                                anchors.centerIn: parent
+                                                width: parent.width*0.90
+                                                height: parent.height*0.90
+                                                fillMode: Image.PreserveAspectFit
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     }
                 }
-
             }
             StandardCalculatorLayout {
                 id: standardSelect
@@ -202,7 +243,6 @@ Window {
             }
             ScientificCalculatorLayout{
                 id: scientificSelect
-
                 idNumber: 1
                 visibleLayout: layoutController.currentLayout === scientificSelect.idNumber
                 layoutWidth: parent.width - rightArea.width
@@ -220,53 +260,20 @@ Window {
         id: layoutController
         property int currentLayout: 0
         property int layoutCount: 2
-        function switchLayout() {
-            if (subroot.windowInterfaceMode === "dark") {
-                if(layoutController.currentLayout === 0){
-                    standardBtnCust.colorBtn = "#6c63ff"
-                    scientificBtnCust.colorBtn = "#151e2a"
-                } else {
-                    scientificBtnCust.colorBtn = "#6c63ff"
-                    standardBtnCust.colorBtn = "#151e2a"
-                }
-            }
-
-        }
         function switchMode(buttonModeStr) {
             if (buttonModeStr === "dark"){
-                subroot.windowInterfaceMode = "dark"
-                rightArea.color = "#0f1722"
-                nameTitle.color = "#0f1722"
-                standardBtnArea.color = "#0f1722"
-                standardBtn.color = "#0f1722"
-                standardBtnCust.colorBtn = "#6c63ff"
-                scientificBtnArea.color = "#0f1722"
-                scientificBtn.color = "#0f1722"
-                scientificBtnCust.colorBtn = "#151e2a"
-                helpAndSettingArea.color = "#0f1722"
-                settingArea.color = "#0f1722"
-                settingAreaBtn.color = "#0f1722"
-                lightTheLayout.colorBtn = "#151e2a"
-                aboutArea.color = "#0f1722"
-                aboutAreaBtn.color = "#151e2a"
-                modeBtn.colorBtn = "#151e2a"
+                standardSelect.darkMode = true
+                subroot.layoutMode = true
+                scientificSelect.darkMode = true
+                standardBtnCust.colorBtn = "#573826"
+                scientificBtnCust.colorBtn = "#573826"
             } else if (buttonModeStr === "light"){
-                subroot.windowInterfaceMode = "light"
-                rightArea.color = "#e3eff9"
-                nameTitle.color = "#e3eff9"
-                standardBtnArea.color = "#e3eff9"
-                standardBtn.color = "#e3eff9"
-                standardBtnCust.colorBtn = "#c2ddf0"
-                scientificBtnArea.color = "#e3eff9"
-                scientificBtn.color = "#e3eff9"
-                scientificBtnCust.colorBtn = "#c2ddf0"
-                helpAndSettingArea.color = "#e3eff9"
-                settingArea.color = "#e3eff9"
-                settingAreaBtn.color = "#e3eff9"
-                lightTheLayout.colorBtn = "#c2ddf0"
-                aboutArea.color = "#e3eff9"
-                aboutAreaBtn.color = "#c2ddf0"
-                modeBtn.colorBtn = "#c2ddf0"
+                standardSelect.darkMode = false
+                subroot.layoutMode = false
+                scientificSelect.darkMode = false
+                standardBtnCust.colorBtn = "#fef3ec"
+                scientificBtnCust.colorBtn = "#fef3ec"
+
             }
         }
     }

@@ -3,22 +3,19 @@
 
 #include <QObject>
 #include <QString>
-#include "string_processor.h"
+#include "calculator.hpp"
+#include <string>
 
 class StringProcessorWrapper : public QObject
 {
     Q_OBJECT
 public:
     explicit StringProcessorWrapper(QObject *parent = nullptr);
-
-    Q_INVOKABLE QString process(const QString &input) {
-        //Convertir QString en std::string
-        std::string inputStd = input.toStdString();
-        //Appeler la fonction C++ independante
-        std::string outputStd = processString(inputStd);
-        //Convertir le resultat en QString pour le renvoyer à QML
-        return QString::fromStdString(outputStd);
-    }
+    Calculator calculateProcess;
+    Q_INVOKABLE QString processTheOperation(const QString &input);
+    Q_INVOKABLE void setAngle(const QString &input);
+    Q_INVOKABLE void setMode(const QString &input);
+    Q_INVOKABLE QString getState();
 };
 
 #endif // STRINGPROCESSORWRAPPER_H

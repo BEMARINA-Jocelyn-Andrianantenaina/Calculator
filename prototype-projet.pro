@@ -4,8 +4,8 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    string_processor.cpp \
-    stringprocessorwrapper.cpp
+    stringprocessorwrapper.cpp \
+    calculator.cpp
 
 RESOURCES += qml.qrc
 
@@ -15,6 +15,5 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
-HEADERS += \
-    string_processor.h \
-    stringprocessorwrapper.h
+HEADERS += stringprocessorwrapper.h \
+    calculator.hpp
