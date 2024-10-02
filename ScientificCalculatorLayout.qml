@@ -14,8 +14,8 @@ Item {
     property alias textBufferedFieldReset: bufferedOperationArea
     property bool darkMode: true
     property real radiusWindow: 15
-    property var listHypMode: ["x<sup>2</sup>", "x<sup>y</sup>","sinh","cosh", "tanh","CE", "C", "Del", "/", "x<sup>3</sup>", "<sup>y</sup>\u221A","sinh<sup>-1</sup>", "cosh<sup>-1</sup>", "tanh<sup>-1</sup>", "7", "8", "9", "*", "\u221A","10<sup>x</sup>", "log", "Exp", "Mod","4", "5", "6","-","1/x", "e<sup>x</sup>", "ln","n!","deg", "1", "2", "3", "+", "Ans", "pi","(",")","+/-",  ",","0", "="]
-    property var listNonHypMode: ["x<sup>2</sup>", "x<sup>y</sup>","sin","cos", "tan","CE", "C", "Del", "/", "x<sup>3</sup>", "<sup>y</sup>\u221A","sin<sup>-1</sup>", "cos<sup>-1</sup>", "tan<sup>-1</sup>", "7", "8", "9", "*", "\u221A","10<sup>x</sup>", "log", "Exp", "Mod","4", "5", "6","-","1/x", "e<sup>x</sup>", "ln","n!","deg", "1", "2", "3", "+", "Ans", "pi","(",")","+/-",  ",","0", "="]
+    property var listHypMode: ["x<sup>2</sup>", "HYP","sinh","cosh", "tanh","CE", "C", "Del", "\u00F7", "x<sup>3</sup>", "x<sup>y</sup>","sinh<sup>-1</sup>", "cosh<sup>-1</sup>", "tanh<sup>-1</sup>", "7", "8", "9", "*", "\u221A","<sup>y</sup>\u221A", "10<sup>x</sup>", "log", "e<sup>x</sup>","4", "5", "6","-","1/x", "|x|", "ln","n!","Mod", "1", "2", "3", "+", "Ans", "pi","(",")","+/-",  ".","0", "="]
+    property var listNonHypMode: ["x<sup>2</sup>", "HYP","sin","cos", "tan","CE", "C", "Del", "\u00F7", "x<sup>3</sup>", "x<sup>y</sup>","sin<sup>-1</sup>", "cos<sup>-1</sup>", "tan<sup>-1</sup>", "7", "8", "9", "*", "\u221A","<sup>y</sup>\u221A", "10<sup>x</sup>", "log", "e<sup>x</sup>","4", "5", "6","-","1/x", "|x|", "ln","n!","Mod", "1", "2", "3", "+", "Ans", "pi","(",")","+/-",  ".","0", "="]
     property bool hypMode: false
     visible: visibleLayout
     FontLoader {
@@ -71,7 +71,7 @@ Item {
                                 fontBtn: jetbrainsFont.name
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: parent.height*0.50
+                                fontSize: parent.width*(1/degreModeBtn.textBtn.length)
                                 onClicked: {
                                     if(degreMode.visible === false){
                                         degreMode.visible = true
@@ -116,7 +116,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: degre.width*(1/degre.textBtn.length)
                                     onClicked: {
                                         process.setAngle("D")
                                         degreModeBtn.textBtn = degre.textBtn
@@ -137,7 +137,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: radient.width*(1/radient.textBtn.length)
                                     onClicked: {
                                         process.setAngle("R")
                                         degreModeBtn.textBtn = radient.textBtn
@@ -159,7 +159,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: grade.width*(1/grade.textBtn.length)
                                     onClicked: {
                                         process.setAngle("G")
                                         degreModeBtn.textBtn = grade.textBtn
@@ -188,7 +188,7 @@ Item {
                                 modeEnabled: root.darkMode
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: parent.height*0.50
+                                fontSize: opMethMode.width*(1/opMethMode.textBtn.length)
                                 onClicked: {
                                     if(operationMode.visible === false){
                                         operationMode.visible = true
@@ -234,7 +234,7 @@ Item {
                                     radiusBtn: operationMode.radius - 5
                                     modeEnabled: root.darkMode
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: normal.width*(1/normal.textBtn.length)
                                     onClicked: {
                                         process.setMode("N")
                                         opMethMode.textBtn = normal.textBtn
@@ -255,7 +255,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     radiusBtn: operationMode.radius - 5
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: scientificLy.width*(1/scientificLy.textBtn.length)
                                     onClicked: {
                                         process.setMode("F")
                                         opMethMode.textBtn = scientificLy.textBtn
@@ -277,7 +277,7 @@ Item {
                                     radiusBtn: operationMode.radius - 5
                                     modeEnabled: root.darkMode
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: parent.height*0.50
+                                    fontSize: dmsMode.width*(1/dmsMode.textBtn.length)
                                     onClicked: {
                                         process.setMode("D")
                                         opMethMode.textBtn = dmsMode.textBtn
@@ -306,7 +306,7 @@ Item {
                                 modeEnabled: root.darkMode
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: parent.height*0.50
+                                fontSize: parent.width*(1/functionButtonDisplay.textBtn.length)
                                 onClicked: {
                                     if(functionButtonWindowDisplayed.visible === false){
                                         functionButtonWindowDisplayed.visible = true
@@ -332,7 +332,7 @@ Item {
                             }
                             radius: root.radiusWindow
                             width:parent.width/3
-                            height: parent.height*4
+                            height: parent.height*3
                             visible: false
                             Column{
                                 id: functionList
@@ -340,39 +340,19 @@ Item {
                                 height: parent.height
                                 visible: false
                                 ButtonCustom{
-                                    id: absFunction
-                                    height: parent.height/4
-                                    textBtn: "abs"
+                                    id: roundFunction
+                                    height: parent.height/3
+                                    textBtn: "round"
                                     anchors{
                                         top: functionList.top
                                         left: functionList.left
                                         right: functionList.right
                                     }
                                     fontBtn: jetbrainsFont.name
-                                    radiusBtn: operationMode.radius - 5
-                                    modeEnabled: root.darkMode
-                                    colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: absFunction.height*0.5
-                                    onClicked: {
-                                        actionsOfTheStandardLayout.btnActionToInput(absFunction.textBtn)
-                                        functionButtonWindowDisplayed.visible = false
-                                        functionList.visible = false
-                                    }
-                                }
-                                ButtonCustom{
-                                    id: roundFunction
-                                    height: parent.height/4
-                                    textBtn: "round"
-                                    anchors{
-                                        top: absFunction.bottom
-                                        left: functionList.left
-                                        right: functionList.right
-                                    }
-                                    fontBtn: jetbrainsFont.name
                                     modeEnabled: root.darkMode
                                     radiusBtn: operationMode.radius - 5
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: roundFunction.height*0.50
+                                    fontSize: roundFunction.width*(1/roundFunction.textBtn.length)
                                     onClicked: {
                                         actionsOfTheStandardLayout.btnActionToInput(roundFunction.textBtn)
                                         functionButtonWindowDisplayed.visible = false
@@ -381,7 +361,7 @@ Item {
                                 }
                                 ButtonCustom{
                                     id: floorFunction
-                                    height: parent.height/4
+                                    height: parent.height/3
                                     textBtn: "floor"
                                     anchors{
                                         top: roundFunction.bottom
@@ -392,7 +372,7 @@ Item {
                                     radiusBtn: operationMode.radius - 5
                                     modeEnabled: root.darkMode
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: floorFunction.height*0.50
+                                    fontSize: floorFunction.width*(1/floorFunction.textBtn.length)
                                     onClicked: {
                                         actionsOfTheStandardLayout.btnActionToInput(floorFunction.textBtn)
                                         functionButtonWindowDisplayed.visible = false
@@ -401,7 +381,7 @@ Item {
                                 }
                                 ButtonCustom{
                                     id: ceilFunction
-                                    height: parent.height/4
+                                    height: parent.height/3
                                     textBtn: "ceil"
                                     anchors{
                                         top: floorFunction.bottom
@@ -413,7 +393,7 @@ Item {
                                     radiusBtn: operationMode.radius - 5
                                     modeEnabled: root.darkMode
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: ceilFunction.height*0.50
+                                    fontSize: ceilFunction.width*(1/ceilFunction.textBtn.length)
                                     onClicked: {
                                         actionsOfTheStandardLayout.btnActionToInput(ceilFunction.textBtn)
                                         functionButtonWindowDisplayed.visible = false
@@ -463,22 +443,22 @@ Item {
                                 top: bufferedOperation.bottom
                                 right: parent.right
                                 left: parent.left
-                                bottom: memoryManagementArea.top
+                                //bottom: memoryManagementArea.top
                             }
                             color: root.darkMode ? "#573826":"#fef3ec"
-                            height: parent.height - memoryManagementArea.height
+                            height: parent.height - parent.height*0.40
                             z:0
                             TextInput {
                                 id: inputField
                                 text: "0"
                                 color: root.darkMode ? "#fef3ec":"#573826"
-                                font.pixelSize: parent.height*0.8
+                                font.pixelSize: parent.height*0.95
                                 width: parent.width*0.95
                                 horizontalAlignment: TextInput.AlignRight
-                                clip: true
-
+                                anchors.centerIn: parent
                                 inputMethodHints: Qt.ImhDigitsOnly
                                 readOnly: true
+                                clip: true
                                 focus: visibleLayout ? true : false
                                 font.family: jetbrainsFont.name
                                 onTextChanged: {
@@ -501,6 +481,7 @@ Item {
                             width: parent.width
                             height: parent.height*0.35
                             anchors {
+                                top: inputArea.bottom
                                 right: parent.right
                                 left: parent.left
                                 bottom: parent.bottom
@@ -513,10 +494,10 @@ Item {
                                 width: parent.width*0.8
                                 spacing: 5
                                 Repeater {
-                                    model: ["HYP","MC", "MR", "M+", "M-", "MS"]
+                                    model: ["MC", "MR", "M+", "M-", "MS"]
                                     Rectangle {
                                         id: memo
-                                        width: (parent.width - (5 * row.spacing))/6
+                                        width: (parent.width - (4 * row.spacing))/5
                                         height: parent.height
                                         radius: root.radiusWindow
                                         color: root.darkMode ? "#fef3ec":"#573826"
@@ -527,7 +508,7 @@ Item {
                                             colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                             radiusBtn: memo.radius
                                             fontBtn: jetbrainsFont.name
-                                            fontSize: parent.height*0.50
+                                            fontSize: parent.width*0.50
                                             onClicked:actionsOfTheStandardLayout.btnActionToInput(textBtn)
                                         }
                                     }
@@ -610,7 +591,7 @@ Item {
                                 textBtn: "" + modelData
                                 fontBtn: jetbrainsFont.name
                                 colorBtn: actionsOfTheStandardLayout.buttonColorSelector(root.darkMode, numericAndOperation.textBtn, buttons.color)
-                                fontSize: parent.height *0.35
+                                fontSize:parent.width *0.35
                                 onClicked: {
                                     actionsOfTheStandardLayout.btnActionToInput(textBtn)
                                 }
@@ -713,7 +694,7 @@ Item {
             }
 
             if (stringToWork === "\u221A"){
-                if(inputField.text.length > 0 && (inputField.text[inputField.text.length - 1] === "+" || inputField.text[inputField.text.length - 1] === "-" || inputField.text[inputField.text.length - 1] === "*" || inputField.text[inputField.text.length - 1] === "/" || inputField.text[inputField.text.length - 1] === "(" )){
+                if(inputField.text.length > 0 && (inputField.text[inputField.text.length - 1] === "+" || inputField.text[inputField.text.length - 1] === "-" || inputField.text[inputField.text.length - 1] === "*" || inputField.text[inputField.text.length - 1] === "/" || inputField.text[inputField.text.length - 1] === "(" || inputField.text[inputField.text.length - 1] === "0")){
                     inputField.text += "\u221A("
                     actionsOfTheStandardLayout.textToSend += "2$("
                 } else {
@@ -797,7 +778,7 @@ Item {
                 inputField.text = inputField.text.slice(0, -1)
                 actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
             }else if (stringToWork === "Mod"){
-                bufferedOperationArea.text += "Mod"
+                bufferedOperationArea.text += inputField.text +"Mod"
                 actionsOfTheStandardLayout.textToSend += "%"
                 inputField.text = "0"
             }else if (stringToWork === "ln"){
@@ -869,7 +850,19 @@ Item {
                 actionsOfTheStandardLayout.textToSend += "10^"
             }else if (stringToWork === "pi"){
                 inputField.text += "pi"
-                actionsOfTheStandardLayout.textToSend += "pi"
+                actionsOfTheStandardLayout.textToSend += "P"
+            }else if (stringToWork === "|x|"){
+                inputField.text += "abs("
+                actionsOfTheStandardLayout.textToSend += "abs("
+            }else if (stringToWork === "e<sup>x</sup>"){
+                inputField.text += "exp("
+                actionsOfTheStandardLayout.textToSend += "exp("
+            }else if (stringToWork === "Ans"){
+                inputField.text += "Ans"
+                actionsOfTheStandardLayout.textToSend += "A"
+            }else if (stringToWork === "1/x"){
+                inputField.text += "1/("
+                actionsOfTheStandardLayout.textToSend += "1/("
             }else if(stringToWork === "=") {
                 recievedText = process.processTheOperation(actionsOfTheStandardLayout.textToSend)
                 inputField.text = recievedText

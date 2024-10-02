@@ -180,9 +180,9 @@ Item {
                     height: parent.height*0.95
                     Repeater {
                         model: if (root.height <= 600 && root.width <= 600){
-                                   return ["(",")", "\u221A","x<sup>2</sup>","CE", "C", "Del", "\u00F7",  "7", "8", "9", "*", "4", "5", "6","-", "1", "2", "3", "+",  "+/-", "0", ",", "="]
+                                   return ["(",")", "\u221A","x<sup>2</sup>","CE", "C", "Del", "\u00F7",  "7", "8", "9", "*", "4", "5", "6","-", "1", "2", "3", "+",  "+/-", "0", ".", "="]
                                }else {
-                                   return ["\u221A", "CE", "C", "Del", "\u00F7", "x<sup>2</sup>", "7", "8", "9", "*", "x<sup>3</sup>" ,"4", "5", "6","-", "+/-","1", "2", "3", "+", "(",")", "0", ",", "="]
+                                   return ["\u221A", "CE", "C", "Del", "\u00F7", "x<sup>2</sup>", "7", "8", "9", "*", "x<sup>3</sup>" ,"4", "5", "6","-", "+/-","1", "2", "3", "+", "(",")", "0", ".", "="]
                                }
 
                         Rectangle {
@@ -280,7 +280,7 @@ Item {
     }
     QtObject {
         id: actionsOfTheStandardLayout
-//        property string textToSend : bufferedOperationArea.text + inputField.text
+        property string textToSend
 //        property string stringToDisplay : " Worked!"
         function buttonColorSelector(mode, buttonText, buttonColor){
             if(mode === true){
@@ -312,7 +312,7 @@ Item {
             }
 
             if (stringToWork === "\u221A"){
-                if(inputField.text.length > 0 && (inputField.text[inputField.text.length - 1] === "+" || inputField.text[inputField.text.length - 1] === "-" || inputField.text[inputField.text.length - 1] === "*" || inputField.text[inputField.text.length - 1] === "/" || inputField.text[inputField.text.length - 1] === "(" )){
+                if(inputField.text.length > 0 && (inputField.text[inputField.text.length - 1] === "+" || inputField.text[inputField.text.length - 1] === "-" || inputField.text[inputField.text.length - 1] === "*" || inputField.text[inputField.text.length - 1] === "/" || inputField.text[inputField.text.length - 1] === "(" || inputField.text[inputField.text.length - 1] === "0")){
                     inputField.text += "\u221A("
                     actionsOfTheStandardLayout.textToSend += "2$("
                 } else {
@@ -396,7 +396,7 @@ Item {
                 inputField.text = inputField.text.slice(0, -1)
                 actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
             }else if (stringToWork === "Mod"){
-                bufferedOperationArea.text += "Mod"
+                bufferedOperationArea.text += inputField.text +"Mod"
                 actionsOfTheStandardLayout.textToSend += "%"
                 inputField.text = "0"
             }else if (stringToWork === "ln"){
@@ -463,6 +463,24 @@ Item {
             }else if (stringToWork === "+/-"){
                 inputField.text += "-("
                 actionsOfTheStandardLayout.textToSend += "-("
+            }else if (stringToWork === "10<sup>x</sup>"){
+                inputField.text += "10^"
+                actionsOfTheStandardLayout.textToSend += "10^"
+            }else if (stringToWork === "pi"){
+                inputField.text += "pi"
+                actionsOfTheStandardLayout.textToSend += "P"
+            }else if (stringToWork === "|x|"){
+                inputField.text += "abs("
+                actionsOfTheStandardLayout.textToSend += "abs("
+            }else if (stringToWork === "e<sup>x</sup>"){
+                inputField.text += "exp("
+                actionsOfTheStandardLayout.textToSend += "exp("
+            }else if (stringToWork === "Ans"){
+                inputField.text += "Ans"
+                actionsOfTheStandardLayout.textToSend += "A"
+            }else if (stringToWork === "1/x"){
+                inputField.text += "1/("
+                actionsOfTheStandardLayout.textToSend += "1/("
             }else if(stringToWork === "=") {
                 recievedText = process.processTheOperation(actionsOfTheStandardLayout.textToSend)
                 inputField.text = recievedText

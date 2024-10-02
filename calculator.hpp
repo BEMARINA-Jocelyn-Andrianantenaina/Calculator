@@ -1,17 +1,12 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-<<<<<<< HEAD
-#include <string>
-#include <vector>
-=======
 #ifndef M_PI
-#include <numbers>
+//#include <numbers>
 #define M_PI std::numbers::pi
 #endif
 
 #include <string>
->>>>>>> backend
 #include <queue>
 #include <stack>
 #include <cmath>
@@ -21,6 +16,7 @@
 #include <stdexcept>
 #include <cassert>
 #include <iomanip>
+#include <QDebug>
 
 class Calculator
 {
