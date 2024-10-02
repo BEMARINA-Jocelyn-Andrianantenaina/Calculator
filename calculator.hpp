@@ -23,6 +23,8 @@ class Calculator
         char angle {'D'};
         int state {0};
         char mode {'N'};
+        long double RadAng {180 / M_PI};
+        long double GradAng {100 / M_PI};
         std::string resultat {"0"};
         std::vector<std::string> fonc_list {"log","ln","sin","cos","tan","asin","acos","atan","sh","ch","th","ath","ach","ash","exp","\\$","ceil","abs","floor","round"};
         std::vector<std::string> shunting_yard(std::vector<std::string>);

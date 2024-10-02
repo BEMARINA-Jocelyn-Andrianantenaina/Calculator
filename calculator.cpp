@@ -170,11 +170,11 @@ long double Calculator::convertToRadian(long double const& x)
 {
     if (this->angle == 'D')
     {
-        return x*M_PI/180;
+        return x*this->RadAng;
     }
     else if (this->angle == 'G')
     {
-        return x*M_PI/100;
+        return x*this->GradAng;
     }
     else
     {
@@ -186,11 +186,11 @@ long double Calculator::convertFromRadian(long double const& x)
 {
     if (this->angle == 'D')
     {
-        return x*180/M_PI;
+        return x*this->RadAng;
     }
     else if (this->angle == 'G')
     {
-        return x*100/M_PI;
+        return x*this->GradAng;
     }
     else
     {
