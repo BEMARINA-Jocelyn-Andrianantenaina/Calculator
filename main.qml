@@ -58,11 +58,12 @@ Window {
                             }
 
                             Text {
+                                id: greatTitle
                                 anchors.centerIn: parent
                                 text: "Calculator"
-                                color: "black"
+                                color: subroot.layoutMode ? "#573826" : "#fef3ec"
                                 font.family: subroot.universalFont
-                                font.pixelSize: parent.height*0.35
+                                font.pixelSize: parent.width*(1/(greatTitle.text.length)) + 10
                             }
                         }
                         Rectangle {
@@ -90,7 +91,7 @@ Window {
                                     colorBtn: "#573826"
                                     fontBtn: subroot.universalFont
                                     radiusBtn: standardBtn.radius
-                                    fontSize: parent.height*0.45
+                                    fontSize: parent.height*(1/standardBtnCust.textBtn.length)
                                     onClicked: {
                                         layoutController.currentLayout = 0
                                         scientificSelect.textInputFieldReset.text = "0"
@@ -124,7 +125,7 @@ Window {
                                     modeEnabled: !subroot.layoutMode
                                     fontBtn: subroot.universalFont
                                     radiusBtn: scientificBtn.radius
-                                    fontSize: parent.height*0.45
+                                    fontSize: parent.width*(1/scientificBtnCust.textBtn.length)
                                     onClicked: {
                                         layoutController.currentLayout = 1
                                         standardSelect.textInputFieldReset.text = "0"
