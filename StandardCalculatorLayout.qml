@@ -103,7 +103,9 @@ Item {
                                     if(inputField.text === ""){
                                         inputField.text = "0"
                                     }
-                                    if(inputField.text.length > 1 && inputField.text.charAt(0) === "0"){
+                                    if(inputField.text.length > 1 && inputField.text.charAt(0) === "0" && inputField.text.charAt(1) === "."){
+                                        inputField.text = inputField.text
+                                    } else if (inputField.text.length > 1 && inputField.text.charAt(0) === "0"){
                                         inputField.text = inputField.text.slice(1)
                                     }
                                 }
@@ -210,7 +212,7 @@ Item {
                                 textBtn: "" + modelData
                                 fontBtn: jetbrainsFont.name
                                 colorBtn:actionsOfTheStandardLayout.buttonColorSelector(root.darkMode, numericAndOperation.textBtn, buttons.color)
-                                fontSize: 20
+                                fontSize: 25
                                 onClicked: actionsOfTheStandardLayout.btnActionToInput(textBtn)
                             }
                         }
@@ -281,6 +283,7 @@ Item {
     QtObject {
         id: actionsOfTheStandardLayout
         property string textToSend
+        property string tempResult
 //        property string stringToDisplay : " Worked!"
         function buttonColorSelector(mode, buttonText, buttonColor){
             if(mode === true){
@@ -309,6 +312,9 @@ Item {
                 inputField.text = ""
             } else if (inputField.text.length === 1 && inputField.text === "0" && stringToWork === "0") {
                 inputField.text = "0"
+            }
+            if(tempResult=== inputField.text && (stringToWork !== "+" && stringToWork !== "-" && stringToWork !== "+" && stringToWork !== "\u00F7")){
+                inputField.text = ""
             }
 
             if (stringToWork === "\u221A"){
@@ -349,9 +355,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0/"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "/"
-                    actionsOfTheStandardLayout.textToSend += "/"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult === inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans/"
+                        actionsOfTheStandardLayout.textToSend += "A/"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "/"
+                        actionsOfTheStandardLayout.textToSend += "/"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "*"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -359,9 +371,16 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0*"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "*"
-                    actionsOfTheStandardLayout.textToSend += "*"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans*"
+                        actionsOfTheStandardLayout.textToSend += "A*"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "*"
+                        actionsOfTheStandardLayout.textToSend += "*"
+                        inputField.text = "0"
+                    }
+
                 }
             }else if (stringToWork === "-"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -369,9 +388,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0-"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "-"
-                    actionsOfTheStandardLayout.textToSend += "-"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans-"
+                        actionsOfTheStandardLayout.textToSend += "A-"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "-"
+                        actionsOfTheStandardLayout.textToSend += "-"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "+"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -379,9 +404,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0+"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "+"
-                    actionsOfTheStandardLayout.textToSend += "+"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        bufferedOperationArea.text += "Ans+"
+                        actionsOfTheStandardLayout.textToSend += "A+"
+                        inputField.text = "0"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "+"
+                        actionsOfTheStandardLayout.textToSend += "+"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "CE"){
                 actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -inputField.text.length)
@@ -393,8 +424,13 @@ Item {
                 bufferedOperationArea.text = ""
                 actionsOfTheStandardLayout.textToSend = ""
             }else if (stringToWork === "Del"){
-                inputField.text = inputField.text.slice(0, -1)
-                actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
+                 if(inputField.text[inputField.text.length - 1] === "(" && inputField.text[inputField.text.length - 2] === "-"){
+                    inputField.text = inputField.text.slice(0, -2)
+                    actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -4)
+                }else {
+                    inputField.text = inputField.text.slice(0, -1)
+                    actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
+                }
             }else if (stringToWork === "Mod"){
                 bufferedOperationArea.text += inputField.text +"Mod"
                 actionsOfTheStandardLayout.textToSend += "%"
@@ -462,7 +498,7 @@ Item {
                 actionsOfTheStandardLayout.textToSend += "round("
             }else if (stringToWork === "+/-"){
                 inputField.text += "-("
-                actionsOfTheStandardLayout.textToSend += "-("
+                actionsOfTheStandardLayout.textToSend += "-1*("
             }else if (stringToWork === "10<sup>x</sup>"){
                 inputField.text += "10^"
                 actionsOfTheStandardLayout.textToSend += "10^"
@@ -482,8 +518,12 @@ Item {
                 inputField.text += "1/("
                 actionsOfTheStandardLayout.textToSend += "1/("
             }else if(stringToWork === "=") {
+                if (inputField.text.length === 1 && inputField.text === "0") {
+                    actionsOfTheStandardLayout.textToSend += "0"
+                }
                 recievedText = process.processTheOperation(actionsOfTheStandardLayout.textToSend)
                 inputField.text = recievedText
+                tempResult = recievedText
                 actionsOfTheStandardLayout.textToSend = ""
                 bufferedOperationArea.text = ""
             }else{

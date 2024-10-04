@@ -71,7 +71,7 @@ Item {
                                 fontBtn: jetbrainsFont.name
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: parent.width*(1/degreModeBtn.textBtn.length)
+                                fontSize: parent.width*(1/(degreModeBtn.textBtn.length*1.5))
                                 onClicked: {
                                     if(degreMode.visible === false){
                                         degreMode.visible = true
@@ -90,7 +90,7 @@ Item {
                         }
                         Rectangle{
                             id: degreMode
-                            color: root.darkMode ? "#573826":"#fef3ec"
+                            color: root.darkMode ? "#fef3ec":"#573826"
                             anchors {
                                 top: degreModeSwitcher.bottom
                                 left: degreModeSwitcher.left
@@ -116,7 +116,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: degre.width*(1/degre.textBtn.length)
+                                    fontSize: degre.width*(1/(degre.textBtn.length*1.5))
                                     onClicked: {
                                         process.setAngle("D")
                                         degreModeBtn.textBtn = degre.textBtn
@@ -137,7 +137,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: radient.width*(1/radient.textBtn.length)
+                                    fontSize: radient.width*(1/(radient.textBtn.length*1.5))
                                     onClicked: {
                                         process.setAngle("R")
                                         degreModeBtn.textBtn = radient.textBtn
@@ -159,7 +159,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     fontBtn: jetbrainsFont.name
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: grade.width*(1/grade.textBtn.length)
+                                    fontSize: grade.width*(1/(grade.textBtn.length*1.5))
                                     onClicked: {
                                         process.setAngle("G")
                                         degreModeBtn.textBtn = grade.textBtn
@@ -188,7 +188,14 @@ Item {
                                 modeEnabled: root.darkMode
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: opMethMode.width*(1/opMethMode.textBtn.length)
+                                fontSize: if(opMethMode.textBtn==="Normal"){
+                                              opMethMode.width*(1/opMethMode.textBtn.length)
+                                          }else if (opMethMode.textBtn==="F-E"){
+                                              opMethMode.width*(1/(opMethMode.textBtn.length*2))
+                                          }else if(opMethMode.textBtn==="dms"){
+                                              opMethMode.width*(1/(opMethMode.textBtn.length*1.5))
+                                          }
+
                                 onClicked: {
                                     if(operationMode.visible === false){
                                         operationMode.visible = true
@@ -207,7 +214,7 @@ Item {
                         }
                         Rectangle{
                             id: operationMode
-                            color:root.darkMode ? "#573826":"#fef3ec"
+                            color:root.darkMode ? "#fef3ec":"#573826"
                             anchors {
                                 top: swicthingButton.bottom
                                 left: swicthingButton.left
@@ -255,7 +262,7 @@ Item {
                                     modeEnabled: root.darkMode
                                     radiusBtn: operationMode.radius - 5
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: scientificLy.width*(1/scientificLy.textBtn.length)
+                                    fontSize: scientificLy.width*(1/(scientificLy.textBtn.length*2))
                                     onClicked: {
                                         process.setMode("F")
                                         opMethMode.textBtn = scientificLy.textBtn
@@ -277,7 +284,7 @@ Item {
                                     radiusBtn: operationMode.radius - 5
                                     modeEnabled: root.darkMode
                                     colorBtn: root.darkMode ? "#fef3ec":"#573826"
-                                    fontSize: dmsMode.width*(1/dmsMode.textBtn.length)
+                                    fontSize: dmsMode.width*(1/(dmsMode.textBtn.length*1.5))
                                     onClicked: {
                                         process.setMode("D")
                                         opMethMode.textBtn = dmsMode.textBtn
@@ -306,7 +313,7 @@ Item {
                                 modeEnabled: root.darkMode
                                 colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                 radiusBtn: 10
-                                fontSize: parent.width*(1/functionButtonDisplay.textBtn.length)
+                                fontSize: parent.width*(1/(functionButtonDisplay.textBtn.length*0.7))
                                 onClicked: {
                                     if(functionButtonWindowDisplayed.visible === false){
                                         functionButtonWindowDisplayed.visible = true
@@ -452,7 +459,12 @@ Item {
                                 id: inputField
                                 text: "0"
                                 color: root.darkMode ? "#fef3ec":"#573826"
-                                font.pixelSize: parent.height*0.95
+                                font.pixelSize: if(inputField.text.length >= 10){
+                                                    return parent.width*(1/(inputField.text.length))
+                                                }else {
+                                                    return parent.height*0.95
+                                                }
+
                                 width: parent.width*0.95
                                 horizontalAlignment: TextInput.AlignRight
                                 anchors.centerIn: parent
@@ -463,11 +475,14 @@ Item {
                                 font.family: jetbrainsFont.name
                                 onTextChanged: {
                                     if(inputField.text === ""){
-                                        inputField.text = 0
+                                        inputField.text = "0"
                                     }
-                                    if(inputField.text.length > 1 && inputField.text.charAt(0) === "0"){
+                                    if(inputField.text.length > 1 && inputField.text.charAt(0) === "0" && inputField.text.charAt(1) === "."){
+                                        inputField.text = inputField.text
+                                    } else if (inputField.text.length > 1 && inputField.text.charAt(0) === "0"){
                                         inputField.text = inputField.text.slice(1)
                                     }
+
 //                                    if(visibleLayout === false){
 //                                        inputField.text = "0"
 //                                    }
@@ -508,7 +523,7 @@ Item {
                                             colorBtn: root.darkMode ? "#fef3ec":"#573826"
                                             radiusBtn: memo.radius
                                             fontBtn: jetbrainsFont.name
-                                            fontSize: parent.width*0.50
+                                            fontSize: parent.width*(1/(textBtn.length*2))
                                             onClicked:actionsOfTheStandardLayout.btnActionToInput(textBtn)
                                         }
                                     }
@@ -663,6 +678,7 @@ Item {
     QtObject {
         id: actionsOfTheStandardLayout
         property string textToSend
+        property string tempResult
         function buttonColorSelector(mode, buttonText, buttonColor){
             if(mode === true){
                 if(buttonText === "=") {
@@ -691,6 +707,9 @@ Item {
                 inputField.text = ""
             } else if (inputField.text.length === 1 && inputField.text === "0" && stringToWork === "0") {
                 inputField.text = "0"
+            }
+            if(tempResult=== inputField.text && (stringToWork !== "+" && stringToWork !== "-" && stringToWork !== "+" && stringToWork !== "\u00F7")){
+                inputField.text = ""
             }
 
             if (stringToWork === "\u221A"){
@@ -731,9 +750,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0/"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "/"
-                    actionsOfTheStandardLayout.textToSend += "/"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult === inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans/"
+                        actionsOfTheStandardLayout.textToSend += "A/"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "/"
+                        actionsOfTheStandardLayout.textToSend += "/"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "*"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -741,9 +766,16 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0*"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "*"
-                    actionsOfTheStandardLayout.textToSend += "*"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans*"
+                        actionsOfTheStandardLayout.textToSend += "A*"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "*"
+                        actionsOfTheStandardLayout.textToSend += "*"
+                        inputField.text = "0"
+                    }
+
                 }
             }else if (stringToWork === "-"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -751,9 +783,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0-"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "-"
-                    actionsOfTheStandardLayout.textToSend += "-"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        inputField.text = "0"
+                        bufferedOperationArea.text += "Ans-"
+                        actionsOfTheStandardLayout.textToSend += "A-"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "-"
+                        actionsOfTheStandardLayout.textToSend += "-"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "+"){
                 if (inputField.text.length === 1 && inputField.text === "0") {
@@ -761,9 +799,15 @@ Item {
                     actionsOfTheStandardLayout.textToSend += "0+"
                     inputField.text = "0"
                 }else {
-                    bufferedOperationArea.text += inputField.text + "+"
-                    actionsOfTheStandardLayout.textToSend += "+"
-                    inputField.text = "0"
+                    if(inputField.text.length > 0 && tempResult ===inputField.text){
+                        bufferedOperationArea.text += "Ans+"
+                        actionsOfTheStandardLayout.textToSend += "A+"
+                        inputField.text = "0"
+                    }else {
+                        bufferedOperationArea.text += inputField.text + "+"
+                        actionsOfTheStandardLayout.textToSend += "+"
+                        inputField.text = "0"
+                    }
                 }
             }else if (stringToWork === "CE"){
                 actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -inputField.text.length)
@@ -775,8 +819,13 @@ Item {
                 bufferedOperationArea.text = ""
                 actionsOfTheStandardLayout.textToSend = ""
             }else if (stringToWork === "Del"){
-                inputField.text = inputField.text.slice(0, -1)
-                actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
+                 if(inputField.text[inputField.text.length - 1] === "(" && inputField.text[inputField.text.length - 2] === "-"){
+                    inputField.text = inputField.text.slice(0, -2)
+                    actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -4)
+                }else {
+                    inputField.text = inputField.text.slice(0, -1)
+                    actionsOfTheStandardLayout.textToSend = actionsOfTheStandardLayout.textToSend.slice(0, -1)
+                }
             }else if (stringToWork === "Mod"){
                 bufferedOperationArea.text += inputField.text +"Mod"
                 actionsOfTheStandardLayout.textToSend += "%"
@@ -844,7 +893,7 @@ Item {
                 actionsOfTheStandardLayout.textToSend += "round("
             }else if (stringToWork === "+/-"){
                 inputField.text += "-("
-                actionsOfTheStandardLayout.textToSend += "-("
+                actionsOfTheStandardLayout.textToSend += "-1*("
             }else if (stringToWork === "10<sup>x</sup>"){
                 inputField.text += "10^"
                 actionsOfTheStandardLayout.textToSend += "10^"
@@ -864,8 +913,12 @@ Item {
                 inputField.text += "1/("
                 actionsOfTheStandardLayout.textToSend += "1/("
             }else if(stringToWork === "=") {
+                if (inputField.text.length === 1 && inputField.text === "0") {
+                    actionsOfTheStandardLayout.textToSend += "0"
+                }
                 recievedText = process.processTheOperation(actionsOfTheStandardLayout.textToSend)
                 inputField.text = recievedText
+                tempResult = recievedText
                 actionsOfTheStandardLayout.textToSend = ""
                 bufferedOperationArea.text = ""
             }else{
