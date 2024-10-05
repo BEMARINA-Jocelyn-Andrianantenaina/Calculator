@@ -64,11 +64,13 @@ std::vector<std::string> Calculator::shunting_yard(std::vector<std::string> spli
 
 std::vector<std::string> Calculator::split_expr(std::string const& expr)
 {
+    qDebug() << "avant :" << QString::fromStdString(expr);
+std::cout <<"expr"<<expr;
     std::vector<std::string> result ;
     std::string cur {expr[0]};
     std::string token,n_token;
     std::regex alpha {"[a-z]+"};
-    short type_a;
+    short type_a; 
     if (cur == "+" || cur == "-") result.push_back("0");
     type_a=this->type(cur);
     if ((type_a == 0) || (type_a >3))
@@ -129,6 +131,11 @@ std::vector<std::string> Calculator::split_expr(std::string const& expr)
         result.push_back(cur);
         cur = "";
     }
+    qDebug() << "apres :" ;
+    for (auto const& f: result)
+    {
+        qDebug() << QString::fromStdString(f);
+    }
     return result;
 }
 
@@ -170,11 +177,11 @@ long double Calculator::convertToRadian(long double const& x)
 {
     if (this->angle == 'D')
     {
-        return x*M_PI/180;
+        return x/180*M_PI;
     }
     else if (this->angle == 'G')
     {
-        return x*M_PI/100;
+        return x/100*M_PI;
     }
     else
     {
@@ -277,6 +284,55 @@ void Calculator::setMode(char m)
     this -> mode = m;
 }
 
+std::string Calculator::MS(std::string & s)
+{
+    std::string m = this -> calculate (s);
+    if (this -> state == 0) 
+    {
+        this -> memory = this -> resultat;
+        return this -> memory;
+    }
+    return m ;
+
+}
+
+std::string Calculator::MR()
+{
+    if ((this->memory).empty()) return "Erreur: Memoire vide";
+    return this-> memory;
+}
+
+std::string Calculator::MP(std::string & s)
+{
+    std::string m = this -> calculate (s);
+    if (this -> state == 0) 
+    {
+        long double l = std::stold(this->memory) ? !(this->memory.empty()) : 0;
+        l += std::stold(this -> resultat);
+        this -> memory = std::to_string(l);
+        return this -> memory;
+    }
+    return m ;
+}
+
+std::string Calculator::MM(std::string & s)
+{
+    std::string m = this -> calculate (s);
+    if (this -> state == 0) 
+    {
+        long double l = std::stold(this->memory) ? !(this->memory.empty()) : 0;
+        l -= std::stold(this -> resultat);
+        this -> memory = std::to_string(l);
+        return this -> memory;
+    }
+    return m ;
+}
+
+void Calculator::MC()
+{
+    this->memory.clear();
+}
+
 bool Calculator::test_syntax(std::string & expr)
 {
     int p{0};
@@ -353,6 +409,10 @@ bool Calculator::test_syntax(std::string & expr)
 
     pat = "[\\!]{1}[\\d]+";
     if (std::regex_search(expr,pat)) return false; 
+
+    pat = "\\-\\(";
+    if (std::regex_search(expr,pat)) std::regex_replace(expr,pat,"-1*(");
+
     return true;
 }
 
@@ -382,10 +442,11 @@ std::string Calculator::replaceConsecutiveDashes(std::string const& input) {
 }
 
 
-std::string Calculator::formatOutput(std::string const& res)
+std::string Calculator::formatOutput(std::string & res)
 {
     std::ostringstream s;
     std::string rep;
+    if (std::abs(std::stold(res)) < 1.0e15L ) res = "0";
     if (this -> mode == 'F')
     {
         s << std::scientific<<std::showpos<<std::stold(res);

@@ -108,13 +108,17 @@ __Les angles pris en charge :__
 - `'R'` : radian
 - `'G'` : grades
 
-<<<<<<< HEAD
 *ps: Par defaut, les angles traites sont en degrees."
-=======
-*ps: Par defaut, les angles traites sont en degrees.*
 
-## Constantes
-La calculatrice auusi prend en charge des variables ou constantes (qui sont deja predefinies, on ne peut pas encore creer des variables cotes utilisateurs.)
-- **P** : pi
-- **A** : Ans (La valeur de la derniere operation), si aucune operation precedente alors *A = 0*
->>>>>>> backend
+## Memoires
+La calculatrice gere aussi une memoire pour stocker une valeur.
+Toutes les methodes 
+On peut le traiter avec les methodes publiques suivantes:
+- **MS** : Stocke une valeur (ou l'evaluation d'une expression) dans la memoire 
+(Ca peut etre une expression et est evalue avant).
+- **MC** : efface la memoire
+- **MP** : additionne la valeur a la memoire
+- **MM** : soutrait la memoire par la valeur
+- **MR** : rappelle la memoire
+
+*Rq* : Toutes ces methodes attendent une string a evaluer (sauf *MR* et *MC*) et retourne la valeur (sauf *MC*).
